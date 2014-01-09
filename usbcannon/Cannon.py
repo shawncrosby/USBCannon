@@ -32,7 +32,7 @@ class Cannon:
         if "Linux" == platform.system():
             try:
                 self.DEVICE.detach_kernel_driver(0)
-            except Exception, e:
+            except Exception:
                 pass # already unregistered
     
         self.DEVICE.set_configuration()
@@ -170,6 +170,7 @@ class Cannon:
             time.sleep(0.5)
             for i in range(value):
                 self.DRIVER.send_cmd(self.FIRE)
+                print("Fire {}".format(i))
                 time.sleep(4.5)
         else:
             print "Error: Unknown command: '%s'" % command
