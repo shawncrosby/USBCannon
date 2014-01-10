@@ -37,125 +37,25 @@ class Cannon:
     
         self.DEVICE.set_configuration()
         
-        self.COMMAND_SETS = {
-            "alex" : (
-                ("right", 1700),
-                ("up", 250),
-                ("led", 1),
-                ("fire", 1),
-                ("led", 0),
-                ("zero", 0),
-            ),
-            "barry" : (
-                ("right", 3100),
-                ("up", 300),
-                ("led", 1),
-                ("fire", 1),
-                ("led", 0),
-                ("zero", 0),
-            ),
-            "alan" : (
-                ("zero", 0),
-                ("right", 50),
-                ("up", 50),
-                ("led", 1),
-                ("fire", 1),
-                ("led", 0),
-                ("zero", 0),
-            ),
-            "marc" : (
-                ("right", 800),
-                ("up", 800),
-                ("led", 1),
-                ("fire", 1),
-                ("led", 0),
-                ("zero", 0),
-            ),
-            "katie" : (
-                ("right", 1000),
-                ("up", 800),
-                ("led", 1),
-                ("fire", 1),
-                ("led", 0),
-                ("zero", 0),
-            ),
-            "corilee" : (
-                ("right", 600),
-                ("up", 500),
-                ("led", 1),
-                ("fire", 1),
-                ("led", 0),
-                ("zero", 0),
-            ),
-            "visitor" : (
-                ("right", 4300),
-                ("up", 350),
-                ("led", 1),
-                ("fire", 1),
-                ("led", 0),
-                ("zero", 0),
-            ),
-            "standup" : (
-                ("right", 2900),
-                ("up", 550),
-                ("led", 1),
-                ("fire", 1),
-                ("led", 0),
-                ("zero", 0),
-            ),
-            "isle" : (
-                ("right", 2500),
-                ("up", 300),
-                ("led", 1),
-                ("fire", 1),
-                ("led", 0),
-                ("zero", 0),
-            ),
-            "farisle" : (
-                ("right", 1700),
-                ("up", 700),
-                ("led", 1),
-                ("fire", 1),
-                ("led", 0),
-                ("zero", 0),
-            ),
-            "farmiddle" : (
-                ("right", 1200),
-                ("up", 500),
-                ("led", 1),
-                ("fire", 1),
-                ("led", 0),
-                ("zero", 0),
-            ),
-            "nextdoor" : (
-                ("right", 3600),
-                ("led", 1),
-                ("fire", 1),
-                ("led", 0),
-                ("zero", 0),
-            ),
-        }
-
-        
     def move(self, cmd, duration_ms):
         self.DRIVER.send_cmd(cmd)
         time.sleep(duration_ms / 1000.0)
-        self.DRIVER.send_cmd(self.STOP)
+        self.DRIVER.send_cmd(Cannon.STOP)
         
     def do(self, cmd, value):
         command = cmd.lower()
         if command == "right":
-            self.move(self.RIGHT, value)
+            self.move(Cannon.RIGHT, value)
         elif command == "left":
-            self.move(self.LEFT, value)
+            self.move(Cannon.LEFT, value)
         elif command == "up":
-            self.move(self.UP, value)
+            self.move(Cannon.UP, value)
         elif command == "down":
-            self.move(self.DOWN, value)
+            self.move(Cannon.DOWN, value)
         elif command == "zero" or command == "park" or command == "reset":
             # Move to bottom-left
-            self.move(self.DOWN, 2000)
-            self.move(self.LEFT, 8000)
+            self.move(Cannon.DOWN, 2000)
+            self.move(Cannon.LEFT, 8000)
         elif command == "pause" or command == "sleep":
             time.sleep(value / 1000.0)
         elif command == "led":
@@ -169,8 +69,8 @@ class Cannon:
             # Stabilize prior to the shot, then allow for reload time after.
             time.sleep(0.5)
             for i in range(value):
-                self.DRIVER.send_cmd(self.FIRE)
-                print("Fire {}".format(i))
+                self.DRIVER.send_cmd(Cannon.FIRE)
+                print("Fire {}".format(i + 1))
                 time.sleep(4.5)
         else:
             print "Error: Unknown command: '%s'" % command
